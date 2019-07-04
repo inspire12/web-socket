@@ -1,6 +1,11 @@
 import socket
 import argparse, sys
 # https://www.tutorialspoint.com/python/python_http_headers.htm
+# 차후에 struct 로 http header 수정
+# https://www.binarytides.com/raw-socket-programming-in-python-linux
+# https://btyy.tistory.com/93
+import struct
+
 
 class Web:
     BUF_SIZE = 1024
@@ -8,6 +13,7 @@ class Web:
     def __init__(self, args):
         self.method = str(args.method).upper() # 대문자여야한다.
         self.headers = args.headers
+        print(self.headers)
         self.url = args.url
 
 
@@ -44,7 +50,7 @@ class Web:
         # args = sys.argv[1:]
         host, port, path = self.__parse_url()
         print(host,port,path)
-        request_header = ("{} / HTTP/1.0\nHost: {}\nPath:{}\n\n".format(self.method, host, path)).encode()
+        request_header = ("{} / HTTP/1.0\nHost: {}\nPath:{}\n{}\n\n".format(self.method, host, path, self.headers)).encode()
         return request_header, host, port
 
 
