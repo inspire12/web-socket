@@ -17,7 +17,7 @@ class Web:
         try:
             self.home_dir = args.home_dir
         except:
-            self.home_dir = "../template/welcome.html"
+            self.home_dir = "template/welcome.html"
 
     def run_server(self):
         server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -30,10 +30,10 @@ class Web:
             (client, address) = server_socket.accept()
             client.settimeout(60)
             print("Recieved connection from {addr}".format(addr=address))
-            self._handle_client(client)
+            # self._handle_client(client)
+            threading.Thread(target=self._handle_client, args=(client, address)).start()
 
-
-    def _handle_client(self, client):
+    def _handle_client(self, client, address):
 
         PACKET_SIZE = 1024
         while True:

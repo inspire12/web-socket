@@ -11,16 +11,14 @@ class Web:
     BUF_SIZE = 1024
 
     def __init__(self, args):
-        self.method = str(args.method).upper() # 대문자여야한다.
+        self.method = str(args.method).upper()  # 대문자여야한다.
         self.headers = args.headers
         print(self.headers)
         self.url = args.url
 
-
     def run(self):
         request_header, host, port = self.make_header()
         self.request_socket(host, port, request_header)
-
 
     def __parse_url(self):
         url = self.url.split("://")[1]
@@ -42,16 +40,15 @@ class Web:
                 break
             response += str(recv)
 
-        print (response)
+        print(response)
         client_socket.close()
-
 
     def make_header(self):
         # args = sys.argv[1:]
         host, port, path = self.__parse_url()
-        print(host,port,path)
-        request_header = ("{} / HTTP/1.0\nHost: {}\nPath:{}\n{}\n\n".format(self.method, host, path, self.headers)).encode()
-        return request_header, host, port
+        print(host, port, path)
+        request_header = ("{} / HTTP/1.0\nHost: {}\nPath:{}\n{}\n\n".format(self.method, host, path, self.headers))
+        return request_header.encode(), host, port
 
 
 if __name__ == "__main__":
@@ -63,11 +60,8 @@ if __name__ == "__main__":
     web = Web(args=args)
     web.run()
 
-
     # method = str(args.method).upper() # 대문자여야한다.
     # headers = args.headers
     # url = args.url
     # request_header, host, port = make_header(url)
     # request_socket(host, port, request_header)
-
-
