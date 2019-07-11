@@ -21,16 +21,30 @@ class Web:
         self.request_socket(host, port, request_header)
 
     def __parse_url(self):
-        url = self.url.split("://")[1]
-        tmp = url.split(":")
-        host = tmp[0]
-        port = tmp[1].split("/")[0]
-        path = tmp[1].split("/")[1]
+        if "://" in self.url:
+            url = self.url.split("://")[1]
+        else:
+            url = self.url
+        if ":" in url:
+            port = url.split(":")[1]
+            url = url.split(":")[0]
+        else: 
+            port = 80 # default
+        if "/" in url:
+            tmp = url.split("/")
+            host = tmp[0]
+            path = tmp[1]
+        else:
+            host = url
+            path = ""
+
+        print(host, int, path)
         return host, int(port), path
 
     def request_socket(self, host, port, request_header):
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         server_address = ((socket.gethostbyname(host), port))
+        print(server_address)
         client_socket.connect(server_address)
         client_socket.send(request_header)
         response = ''

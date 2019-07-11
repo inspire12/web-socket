@@ -30,7 +30,6 @@ class Web:
             (client, address) = server_socket.accept()
             client.settimeout(60)
             print("Recieved connection from {addr}".format(addr=address))
-            # self._handle_client(client)
             threading.Thread(target=self._handle_client, args=(client, address)).start()
 
     def _handle_client(self, client, address):
